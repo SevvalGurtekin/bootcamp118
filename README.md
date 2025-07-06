@@ -1,9 +1,9 @@
 # 🧾 Sprint 1 – (Keşif ve Başlangıç)
 
 📌 Sprint Notları
-*Ekiple tanışıldı, toplantılar düzenlendi.
-*Projenin amacı, hedef kitlesi ve ihtiyaçları belirlendi.
-*Kullanıcı personaları ve senaryolar bir sonraki sprint döneminde yapılmaya karar verildi.
+* Ekiple tanışıldı, toplantılar düzenlendi.
+* Projenin amacı, hedef kitlesi ve ihtiyaçları belirlendi.
+* Kullanıcı personaları ve senaryolar bir sonraki sprint döneminde yapılmaya karar verildi.
 
 
 🔢 Tahmini Tamamlanacak Puan & Mantığı
