@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 from app.db.base import Base
 import enum
 
-# Kullanıcı rolleri için enum sınıfı
 class UserRole(enum.Enum):
     admin = "admin"
     teacher = "teacher"
@@ -16,12 +15,17 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True, nullable=False)
     username = Column(String, nullable=False)
-    password_hash = Column(String, nullable=False)
+    hashed_password = Column(String, nullable=False)  # ✅ Değiştirildi
     role = Column(Enum(UserRole), nullable=False)
     is_approved = Column(Boolean, default=False)
 
-    # Öğrenci profili ile ilişki
+    # ✅ Öğretmene özel alanlar
+    institution = Column(String, nullable=True)
+    id_card_png_path = Column(String, nullable=True)
+
+    # Öğrenci profili ile ilişki (sadece öğrenci için kullanılır)
     student_profile = relationship("StudentProfile", back_populates="user", uselist=False)
+
 
 class StudentProfile(Base):
     __tablename__ = "student_profiles"
@@ -31,6 +35,6 @@ class StudentProfile(Base):
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     age = Column(Integer, nullable=False)
-    diagnosis = Column(String, nullable=False)  # Tanı metin olarak tutulur
+    diagnosis = Column(String, nullable=False)  # Tanı
 
     user = relationship("User", back_populates="student_profile")

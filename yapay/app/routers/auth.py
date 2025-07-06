@@ -59,7 +59,7 @@ def register_post(
     new_user = models.User(
         email=email,
         username=username,
-        password_hash=hashed_pw,
+        hashed_password=hashed_pw,  # ✅ burada düzeltildi
         role=models.UserRole.teacher,
         is_approved=False
     )
@@ -90,7 +90,7 @@ def login_post(
 ):
     db_user = db.query(models.User).filter(models.User.email == email).first()
 
-    if not db_user or not verify_password(password, db_user.password_hash):
+    if not db_user or not verify_password(password, db_user.hashed_password):  # ✅ burada düzeltildi
         return templates.TemplateResponse("login.html", {
             "request": request,
             "error": "E-posta ya da şifre hatalı."

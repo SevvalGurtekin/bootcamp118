@@ -1,19 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
+    <meta charset="UTF-8">
     <title>Giriş Yap</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(to bottom right, #d2eaf1, #e4f5e5);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 40px;
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #227093;
+            margin-bottom: 25px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        input[type="submit"] {
+            background-color: #38ada9;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #079992;
+        }
+
+        a {
+            display: block;
+            margin-top: 16px;
+            color: #227093;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            color: green;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Giriş Yap</h2>
-    <form action="/auth/login" method="post">
-        <label for="email">E-posta:</label><br>
-        <input type="email" name="email" required><br>
+    <div class="login-container">
+        <h2>Parlayan Yıldızlar Giriş Paneli</h2>
 
-        <label for="password">Şifre:</label><br>
-        <input type="password" name="password" required><br>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        {% if message %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
 
-        <input type="submit" value="Giriş Yap">
-    </form>
-    <p><a href="/register">Hesabın yok mu? Kaydol</a></p>
+        <form action="/auth/login" method="post">
+            <input type="email" name="email" placeholder="E-posta" required>
+            <input type="password" name="password" placeholder="Şifre" required>
+            <input type="submit" value="Giriş Yap">
+        </form>
+
+        <a href="/auth/register">Hesabın yok mu? Kaydol</a>
+    </div>
 </body>
 </html>

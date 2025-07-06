@@ -5,6 +5,8 @@ from app.db.session import engine
 from app.db import models
 from app.routers import auth, admin, teacher, student, parent
 import os
+from fastapi.staticfiles import StaticFiles
+
 
 app = FastAPI(
     title="AI Destekli Özel Eğitim Platformu",
@@ -24,6 +26,8 @@ app.include_router(admin.router, tags=["Admin Panel"])
 app.include_router(teacher.router, tags=["Teacher"])
 app.include_router(student.router, tags=["Student"])
 app.include_router(parent.router, tags=["Parent"])
+
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # Ana sayfaya gelen kullanıcıyı giriş sayfasına yönlendir
 @app.get("/", response_class=HTMLResponse)

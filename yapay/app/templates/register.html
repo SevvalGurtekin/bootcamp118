@@ -2,30 +2,118 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Öğretmen Kayıt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(to bottom right, #e8f0fe, #def9ec);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 40px;
+            width: 360px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #227093;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        input[type="submit"] {
+            background-color: #38ada9;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #079992;
+        }
+
+        a {
+            display: block;
+            margin-top: 16px;
+            color: #227093;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            color: green;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 480px) {
+            .register-container {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>Öğretmen Kayıt Formu</h2>
+    <div class="register-container">
+        <h2>Öğretmen Kayıt Formu</h2>
 
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
 
-    <form action="/auth/register" method="post">
-        <label for="username">Ad Soyad:</label><br>
-        <input type="text" name="username" required><br><br>
+        {% if message %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
 
-        <label for="email">E-posta:</label><br>
-        <input type="email" name="email" required><br><br>
+     <form action="/auth/register" method="post" enctype="multipart/form-data">
+    <input type="text" name="username" placeholder="Ad Soyad" required>
+    <input type="email" name="email" placeholder="E-posta" required>
+    <input type="password" name="password" placeholder="Şifre" required>
 
-        <label for="password">Şifre:</label><br>
-        <input type="password" name="password" required><br><br>
+    <input type="text" name="institution" placeholder="Çalıştığınız Kurum" required>
 
-        <input type="hidden" name="role" value="teacher">
+    <label style="display:block; margin-top: 12px; font-size: 14px;">Kimlik Kartı (PNG):</label>
+    <input type="file" name="id_card_png" accept=".png" required>
 
-        <input type="submit" value="Kaydol">
-    </form>
 
-    <p><a href="/auth/login">Zaten hesabın var mı? Giriş yap</a></p>
+
+    <input type="hidden" name="role" value="teacher">
+    <input type="submit" value="Kayıt Ol">
+</form>
+
+
+        <a href="/auth/login">Zaten hesabın var mı? Giriş yap</a>
+    </div>
 </body>
 </html>
