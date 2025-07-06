@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Kullanıcı Onayı</title>
+</head>
+<body>
+    <h2>Admin Paneli: Kullanıcı Onayı</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Ad</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Onay Durumu</th>
+            <th>İşlem</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ "Evet" if user.is_approved else "Hayır" }}</td>
+            <td>
+                {% if not user.is_approved %}
+                <form action="/admin/approve" method="post">
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="submit" value="Onayla">
+                </form>
+                {% else %}
+                Onaylandı
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
