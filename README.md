@@ -25,9 +25,9 @@
 
 
 ✅ Sprint Review
-*Tasarım fikirleri paylaşıldı, kullanıcı dostu olması önceliklendirildi.
-*Geri bildirimlerle birkaç revize yapıldı.
+* Tasarım fikirleri paylaşıldı, kullanıcı dostu olması önceliklendirildi.
+* Geri bildirimlerle birkaç revize yapıldı.
 
 
 🔄 Sprint Retrospective 
-*İyileştirme alanı: Hayat yoğunluğundan dolayı bu dönemde planlama iyi yapılamadı.
+* İyileştirme alanı: Hayat yoğunluğundan dolayı bu dönemde planlama iyi yapılamadı.
