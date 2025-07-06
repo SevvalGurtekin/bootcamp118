@@ -22,7 +22,7 @@
 - 🏆 Oyunlaştırma ve ödül sistemi
 - ♿ Üst düzey erişilebilirlik
 
-## 🧾 Sprint 1 – (Keşif ve Başlangıç)
+## 🧾 SPRINT 1 
 
 ### 📌 Sprint Notları
 * Ekiple tanışıldı, toplantılar düzenlendi.
@@ -33,15 +33,15 @@
 ### 🔢 Tahmini Tamamlanacak Puan & Mantığı
 * Toplam 21 puanlık iş planlandı.
 * Her iş için karmaşıklık ve zaman tahmini baz alınarak story point atandı.
-  
+* Sonuç olarak 14 puanlık iş yapıldı, bu dönemde hedeflenen puandan aşağıda kalındı. 
 
 ### 📅 Daily Scrum Özeti
 * Birkaç günde bir görev dağılımı ve güncellemeler kısa toplantılarla takip edildi.
-* Öncelikler sprint backlog’a göre güncellendi.
+* Günlük konuşmalar Whatsapp üzerinden yapıldı ve takip edildi.
   
 
 ### 🗂 Sprint Board Güncellemeleri
-* GitHub Projects üzerinde “To Do / In Progress / Done” sütunları kullanıldı.
+* Görevler Whatsapp üzerinden atandı.
 * Tüm görevler issue olarak tanımlandı.
 
 
