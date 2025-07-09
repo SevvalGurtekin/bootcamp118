@@ -57,7 +57,7 @@
 
 
 ### 🖼 App Screenshot
-<img width="500" alt="screenshot1" src="https://github.com/user-attachments/assets/806b5543-743d-4d5a-a914-fb756baf21c3" />
+<img width="400" alt="screenshot1" src="https://github.com/user-attachments/assets/806b5543-743d-4d5a-a914-fb756baf21c3" />
 <img width="500" alt="screenshot2" src="https://github.com/user-attachments/assets/74ed52ad-3474-4999-94c5-ea1d7d735a53" />
 <img width="500" alt="screenshot4" src="https://github.com/user-attachments/assets/75ced604-7fe1-4fd1-affd-e5e0e469f489" />
 <img width="500" alt="screenshot5" src="https://github.com/user-attachments/assets/0494343c-f6cf-4811-9cdf-5768e3cd10ba" />
