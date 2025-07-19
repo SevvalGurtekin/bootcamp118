@@ -1,5 +1,5 @@
 <?php
-include '../config/db.php';
+require_once '../config/db.php';
 $msg = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $t_name = $_POST['t_name'];
@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $t_branch = $_POST['t_branch'];
     $t_email = $_POST['t_email'];
     $t_pass = substr(md5(uniqid()),0,8);
-    $t_hash = md5($t_pass);
+    $t_hash = password_hash($t_pass, PASSWORD_DEFAULT);
     // Kimlik kartı yükleme
     $file_name = '';
     if (isset($_FILES['t_card']) && $_FILES['t_card']['error'] === UPLOAD_ERR_OK) {
@@ -24,28 +24,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     // E-posta daha önce kullanılmış mı kontrolü
     if (!$msg) {
-        $check = $conn->prepare("SELECT id FROM users WHERE email=?");
-        $check->bind_param('s', $t_email);
-        $check->execute();
-        $check->store_result();
-        if ($check->num_rows > 0) {
+        $check = $pdo->prepare("SELECT id FROM users WHERE email=?");
+        $check->execute([$t_email]);
+        if ($check->fetch()) {
             $msg = 'Bu e-posta adresi ile zaten bir kayıt yapılmış!';
         }
     }
     if (!$msg) {
-        $stmt = $conn->prepare("INSERT INTO users (name, surname, email, password, role, status) VALUES (?, ?, ?, ?, 'teacher', 'pending')");
-        $stmt->bind_param('ssss', $t_name, $t_surname, $t_email, $t_hash);
-        if ($stmt->execute()) {
-            $teacher_id = $conn->insert_id;
-            $conn->query("INSERT INTO teachers (user_id) VALUES ($teacher_id)");
-            // Ek bilgiler için ayrı tabloya ekleme (gerekirse)
-            $stmt2 = $conn->prepare("UPDATE teachers SET school=?, branch=?, card=? WHERE user_id=?");
-            $stmt2->bind_param('sssi', $t_school, $t_branch, $file_name, $teacher_id);
-            $stmt2->execute();
+        $stmt = $pdo->prepare("INSERT INTO users (name, surname, email, password, role, status) VALUES (?, ?, ?, ?, 'teacher', 'pending')");
+        if ($stmt->execute([$t_name, $t_surname, $t_email, $t_hash])) {
+            $teacher_id = $pdo->lastInsertId();
+            $pdo->prepare("INSERT INTO teachers (user_id, school, branch, card) VALUES (?, ?, ?, ?)")
+                ->execute([$teacher_id, $t_school, $t_branch, $file_name]);
             // Şifreyi ve mail gönderimini admin onayına bırakıyoruz
             $msg = '<b>Kayıt başarılı!</b><br>Kaydınız alınmıştır. Admin onayından sonra giriş bilgileriniz mail adresinize gönderilecektir.';
         } else {
-            $msg = 'Hata: ' . $conn->error;
+            $msg = 'Hata: Kayıt işlemi başarısız.';
         }
     }
 }
