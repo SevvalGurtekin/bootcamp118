@@ -1,10 +1,13 @@
 <?php
-/* ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
- */
-require_once '../config/db.php';
 session_start();
+if (!isset($_SESSION)) {
+    echo "Session başlatılamadı! Sunucu ayarlarını kontrol edin.";
+    exit();
+}
+require_once '../config/db.php';
 if (isset($_SESSION['user_id'])) {
     switch($_SESSION['role']) {
         case 'admin':
@@ -46,6 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     case 'parent':
                         header('Location: parent_panel.php');
                         break;
+                    case 'student':
+                        header('Location: student_panel.php');
+                        break;
                     default:
                         header('Location: login.php');
                 }
@@ -65,14 +71,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Giriş - Yapay Zeka Destekli Özel Eğitim</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Giriş Yap</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        body { background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); min-height: 100vh; display: flex; align-items: center; }
-        .login-card { background: #fff; border-radius: 24px; box-shadow: 0 8px 32px 0 rgba(4,110,143,0.15); padding: 2.5rem 2rem 2rem 2rem; max-width: 400px; width: 100%; border: 3px solid #046E8F; }
-        .login-title { color: #046E8F; font-weight: bold; text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem; letter-spacing: 1px; }
+        body { background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); min-height: 100vh; }
+        .login-card { background: #fff; border-radius: 24px; box-shadow: 0 8px 32px 0 rgba(4,110,143,0.15); padding: 2.5rem 2rem 2rem 2rem; max-width: 400px; width: 100%; border: 3px solid #046E8F; margin: 2rem auto; }
+        .login-title { color: #046E8F; font-weight: bold; text-align: center; margin-bottom: 1.5rem; font-size: 2rem; letter-spacing: 1px; }
         .btn-login { background: #046E8F; border: none; border-radius: 12px; padding: 0.75rem; font-weight: bold; }
         .btn-login:hover { background: #028090; }
+        @media (max-width: 600px) {
+            .login-card { padding: 1rem 0.5rem; }
+            .login-title { font-size: 1.3rem; }
+        }
     </style>
 </head>
 <body>

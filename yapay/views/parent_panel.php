@@ -19,6 +19,7 @@ $children = $children->fetchAll();
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Veli Paneli</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
@@ -26,6 +27,11 @@ $children = $children->fetchAll();
         .panel-card { background: #fff; border-radius: 24px; box-shadow: 0 8px 32px 0 rgba(4,110,143,0.15); padding: 2.5rem 2rem 2rem 2rem; max-width: 900px; width: 100%; border: 3px solid #046E8F; margin: 2rem auto; }
         .panel-title { color: #046E8F; font-weight: bold; text-align: center; margin-bottom: 1.5rem; font-size: 2rem; letter-spacing: 1px; }
         .table thead { background: #b2ebf2; }
+        @media (max-width: 600px) {
+            .panel-card { padding: 1rem 0.5rem; }
+            .panel-title { font-size: 1.3rem; }
+            .table { font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body>

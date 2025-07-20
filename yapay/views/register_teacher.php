@@ -48,34 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Öğretmen Kayıt</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        body {
-            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .register-card {
-            background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 8px 32px 0 rgba(4,110,143,0.15);
-            padding: 2.5rem 2rem 2rem 2rem;
-            max-width: 500px;
-            width: 100%;
-            border: 3px solid #046E8F;
-            position: relative;
-        }
-        .register-title {
-            color: #046E8F;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-            letter-spacing: 1px;
-        }
+        body { background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); min-height: 100vh; }
+        .register-card { background: #fff; border-radius: 24px; box-shadow: 0 8px 32px 0 rgba(4,110,143,0.15); padding: 2.5rem 2rem 2rem 2rem; max-width: 500px; width: 100%; border: 3px solid #046E8F; margin: 2rem auto; }
+        .register-title { color: #046E8F; font-weight: bold; text-align: center; margin-bottom: 1.5rem; font-size: 2rem; letter-spacing: 1px; }
         .btn-success {
             background: #046E8F;
             border: none;
@@ -103,6 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         .register-card .login-link:hover {
             color: #028090;
+        }
+        @media (max-width: 600px) {
+            .register-card { padding: 1rem 0.5rem; }
+            .register-title { font-size: 1.3rem; }
         }
     </style>
 </head>

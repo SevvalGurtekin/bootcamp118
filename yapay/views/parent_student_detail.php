@@ -26,12 +26,22 @@ if (!$stu) {
 }
 // Veli gözlem ekleme
 $msg = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_note'])) {
-    $note = trim($_POST['note']);
-    if ($note) {
-        $pdo->prepare('INSERT INTO student_notes (student_id, type, note, author_type, author_id, created_at) VALUES (?, "gozlem", ?, "parent", ?, NOW())')
-            ->execute([$student_id, $note, $parent_user_id]);
-        $msg = 'Gözleminiz eklendi!';
+// Silme işlemi
+if (isset($_GET['delete_note'])) {
+    $delete_note_id = intval($_GET['delete_note']);
+    // Sadece bu velinin kendi eklediği notu silebilsin
+    $pdo->prepare('DELETE FROM student_notes WHERE id = ? AND author_type = "parent" AND author_id = ?')
+        ->execute([$delete_note_id, $parent_user_id]);
+    $msg = 'Gözleminiz silindi!';
+}
+// Düzenleme işlemi
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_note_id'])) {
+    $edit_note_id = intval($_POST['edit_note_id']);
+    $edit_note = trim($_POST['edit_note']);
+    if ($edit_note) {
+        $pdo->prepare('UPDATE student_notes SET note = ? WHERE id = ? AND author_type = "parent" AND author_id = ?')
+            ->execute([$edit_note, $edit_note_id, $parent_user_id]);
+        $msg = 'Gözleminiz güncellendi!';
     }
 }
 // Tüm gözlem ve testleri çek (hem öğretmen hem veli)
@@ -83,14 +93,19 @@ $ai_report = gemini_generate($ai_prompt);
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Öğrenci Detay - Veli</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Çocuk Detayı</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body { background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); min-height: 100vh; }
-        .detail-card { background: #fff; border-radius: 24px; box-shadow: 0 8px 32px 0 rgba(4,110,143,0.15); padding: 2.5rem 2rem 2rem 2rem; max-width: 800px; width: 100%; border: 3px solid #046E8F; margin: 2rem auto; }
-        .ai-box { background: #e0f7fa; border-left: 5px solid #028090; border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
-        .teacher-note { background: #fff3cd; border-left: 3px solid #ffc107; }
-        .parent-note { background: #d1ecf1; border-left: 3px solid #17a2b8; }
+        .detail-card { background: #fff; border-radius: 24px; box-shadow: 0 8px 32px 0 rgba(4,110,143,0.15); padding: 2.5rem 2rem 2rem 2rem; max-width: 900px; width: 100%; border: 3px solid #046E8F; margin: 2rem auto; }
+        .panel-title { color: #046E8F; font-weight: bold; text-align: center; margin-bottom: 1.5rem; font-size: 2rem; letter-spacing: 1px; }
+        .table thead { background: #b2ebf2; }
+        @media (max-width: 600px) {
+            .detail-card { padding: 1rem 0.5rem; }
+            .panel-title { font-size: 1.3rem; }
+            .table { font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body>
@@ -125,14 +140,31 @@ $ai_report = gemini_generate($ai_prompt);
         </form>
         <h5>Gözlem ve Testler</h5>
         <table class="table table-striped">
-            <thead><tr><th>Tarih</th><th>Kim</th><th>Tür</th><th>Not</th></tr></thead>
+            <thead><tr><th>Tarih</th><th>Kim</th><th>Tür</th><th>Not</th><th>İşlem</th></tr></thead>
             <tbody>
             <?php foreach($notes as $n): ?>
                 <tr class="<?= $n['author_type'] === 'teacher' ? 'teacher-note' : 'parent-note' ?>">
                     <td><?= htmlspecialchars($n['created_at']) ?></td>
                     <td><?= htmlspecialchars($n['author_name'].' '.$n['author_surname']) ?> (<?= $n['author_type'] === 'teacher' ? 'Öğretmen' : 'Veli' ?>)</td>
                     <td><?= $n['type'] === 'gozlem' ? 'Gözlem' : 'Test' ?></td>
-                    <td><?= htmlspecialchars($n['note']) ?></td>
+                    <td>
+                        <?php if(isset($_GET['edit_note']) && $_GET['edit_note'] == $n['id'] && $n['author_type'] === 'parent' && $n['author_id'] == $parent_user_id): ?>
+                            <form method="post" class="d-flex gap-2 align-items-center">
+                                <input type="hidden" name="edit_note_id" value="<?= $n['id'] ?>">
+                                <input type="text" name="edit_note" class="form-control" value="<?= htmlspecialchars($n['note']) ?>" required>
+                                <button type="submit" class="btn btn-success btn-sm">Kaydet</button>
+                                <a href="?student_id=<?= $student_id ?>" class="btn btn-secondary btn-sm">İptal</a>
+                            </form>
+                        <?php else: ?>
+                            <?= htmlspecialchars($n['note']) ?>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if($n['author_type'] === 'parent' && $n['author_id'] == $parent_user_id): ?>
+                            <a href="?student_id=<?= $student_id ?>&delete_note=<?= $n['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bu gözlemi silmek istediğinize emin misiniz?')">Sil</a>
+                            <a href="?student_id=<?= $student_id ?>&edit_note=<?= $n['id'] ?>" class="btn btn-warning btn-sm">Düzenle</a>
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
