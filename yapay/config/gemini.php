@@ -1,7 +1,6 @@
 <?php
-// Gemini API anahtarını buraya ekle
-$GEMINI_API_KEY = 'AIzaSyCjPZXf012UGMDYsrv6bTELxuxW44i6wm0'; // <-- Buraya kendi anahtarını gir
 
+$GEMINI_API_KEY = ''; // <-- api anahtarı gemini
 function gemini_generate($prompt) {
     global $GEMINI_API_KEY;
     $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
